@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy CRM to kinetiks.online
 
 on:
   push:
@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  deploy:
+  deploy-crm:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,16 +24,18 @@ jobs:
         working-directory: frontend
         run: npm ci
 
-      - name: Build frontend
+      - name: Build for /crm/ (kinetiks.online link)
         working-directory: frontend
         env:
-          VITE_BASE: /-/
+          VITE_BASE: /crm/
           VITE_USE_LOCAL_API: 'true'
           VITE_API_URL: https://kinetix-api.onrender.com/api
         run: npm run build && cp dist/index.html dist/404.html
 
-      - name: Deploy to gh-pages branch
+      - name: Deploy to AlexQartveli/crm gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          external_repository: AlexQartveli/crm
+          publish_branch: gh-pages
           publish_dir: frontend/dist
