@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Plus, Trash2, MessageCircle } from 'lucide-react'
 import { api, Lead } from '../api/client'
 import Modal from '../components/Modal'
+import Page, { TableWrap } from '../components/Page'
 import { useI18n } from '../i18n/I18nContext'
 import { useStatuses, formatDate, formatMoney } from '../utils'
 
@@ -47,67 +48,100 @@ export default function Leads() {
     load()
   }
 
+  const statusSelect = (lead: Lead) => (
+    <select
+      value={lead.status}
+      onChange={(e) => handleStatusChange(lead.id, e.target.value)}
+      className={`text-xs font-medium px-2 py-1 rounded-full border-0 cursor-pointer max-w-full ${leadStatuses[lead.status]?.color || ''}`}
+    >
+      {Object.entries(leadStatuses).map(([k, v]) => (
+        <option key={k} value={k}>{v.label}</option>
+      ))}
+    </select>
+  )
+
+  const messengerLink = (leadId: number) =>
+    convCounts[leadId] ? (
+      <Link to="/inbox" className="inline-flex items-center gap-1 text-kinetix-600 dark:text-kinetix-400">
+        <MessageCircle size={14} />
+        {convCounts[leadId]}
+      </Link>
+    ) : (
+      <span className="text-app-text-muted">{t.common.dash}</span>
+    )
+
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="page-title">{t.leads.title}</h1>
-        <button className="btn-primary flex items-center gap-2" onClick={() => setModalOpen(true)}>
+    <Page
+      title={t.leads.title}
+      action={
+        <button className="btn-primary flex items-center gap-2 shrink-0" onClick={() => setModalOpen(true)}>
           <Plus size={18} /> {t.leads.add}
         </button>
+      }
+    >
+      <div className="md:hidden space-y-3">
+        {leads.map((lead) => (
+          <div key={lead.id} className="card p-4">
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <h3 className="font-semibold">{lead.title}</h3>
+              <button onClick={() => handleDelete(lead.id)} className="shrink-0 text-red-400 hover:text-red-500 dark:hover:text-red-300">
+                <Trash2 size={16} />
+              </button>
+            </div>
+            {lead.name && <p className="text-sm text-app-text-muted">{lead.name}</p>}
+            <div className="mt-2 space-y-1 text-sm text-app-text-secondary">
+              {lead.phone && <p>{lead.phone}</p>}
+              {lead.source && <p>{t.common.source}: {lead.source}</p>}
+            </div>
+            <div className="flex items-center justify-between gap-2 mt-3">
+              <span className="font-bold text-kinetix-700 dark:text-kinetix-400">{formatMoney(lead.amount)}</span>
+              <span className="text-xs text-app-text-muted">{formatDate(lead.created_at)}</span>
+            </div>
+            <div className="flex items-center justify-between gap-2 mt-3">
+              {statusSelect(lead)}
+              {messengerLink(lead.id)}
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="card overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr>
-              <th className="text-left p-4 font-medium">{t.common.title}</th>
-              <th className="text-left p-4 font-medium">{t.common.contact}</th>
-              <th className="text-left p-4 font-medium">{t.common.phone}</th>
-              <th className="text-left p-4 font-medium">{t.common.source}</th>
-              <th className="text-left p-4 font-medium">{t.common.status}</th>
-              <th className="text-right p-4 font-medium">{t.common.amount}</th>
-              <th className="text-left p-4 font-medium">{t.common.date}</th>
-              <th className="text-left p-4 font-medium">{t.leads.messengerDialogs}</th>
-              <th className="p-4"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {leads.map((lead) => (
-              <tr key={lead.id}>
-                <td className="p-4 font-medium">{lead.title}</td>
-                <td className="p-4">{lead.name || t.common.dash}</td>
-                <td className="p-4">{lead.phone || t.common.dash}</td>
-                <td className="p-4">{lead.source || t.common.dash}</td>
-                <td className="p-4">
-                  <select
-                    value={lead.status}
-                    onChange={(e) => handleStatusChange(lead.id, e.target.value)}
-                    className={`text-xs font-medium px-2 py-1 rounded-full border-0 cursor-pointer ${leadStatuses[lead.status]?.color || ''}`}
-                  >
-                    {Object.entries(leadStatuses).map(([k, v]) => (
-                      <option key={k} value={k}>{v.label}</option>
-                    ))}
-                  </select>
-                </td>
-                <td className="p-4 text-right">{formatMoney(lead.amount)}</td>
-                <td className="p-4 text-app-text-muted">{formatDate(lead.created_at)}</td>
-                <td className="p-4">
-                  {convCounts[lead.id] ? (
-                    <Link to="/inbox" className="inline-flex items-center gap-1 text-kinetix-600 dark:text-kinetix-400">
-                      <MessageCircle size={14} />
-                      {convCounts[lead.id]}
-                    </Link>
-                  ) : t.common.dash}
-                </td>
-                <td className="p-4">
-                  <button onClick={() => handleDelete(lead.id)} className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300">
-                    <Trash2 size={16} />
-                  </button>
-                </td>
+      <div className="hidden md:block">
+        <TableWrap>
+          <table className="w-full text-sm">
+            <thead>
+              <tr>
+                <th className="text-left p-4 font-medium">{t.common.title}</th>
+                <th className="text-left p-4 font-medium">{t.common.contact}</th>
+                <th className="text-left p-4 font-medium">{t.common.phone}</th>
+                <th className="text-left p-4 font-medium">{t.common.source}</th>
+                <th className="text-left p-4 font-medium">{t.common.status}</th>
+                <th className="text-right p-4 font-medium">{t.common.amount}</th>
+                <th className="text-left p-4 font-medium">{t.common.date}</th>
+                <th className="text-left p-4 font-medium">{t.leads.messengerDialogs}</th>
+                <th className="p-4"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {leads.map((lead) => (
+                <tr key={lead.id}>
+                  <td className="p-4 font-medium">{lead.title}</td>
+                  <td className="p-4">{lead.name || t.common.dash}</td>
+                  <td className="p-4">{lead.phone || t.common.dash}</td>
+                  <td className="p-4">{lead.source || t.common.dash}</td>
+                  <td className="p-4">{statusSelect(lead)}</td>
+                  <td className="p-4 text-right">{formatMoney(lead.amount)}</td>
+                  <td className="p-4 text-app-text-muted">{formatDate(lead.created_at)}</td>
+                  <td className="p-4">{messengerLink(lead.id)}</td>
+                  <td className="p-4">
+                    <button onClick={() => handleDelete(lead.id)} className="text-red-400 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300">
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </TableWrap>
       </div>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={t.leads.new}>
@@ -116,7 +150,7 @@ export default function Leads() {
             <label className="label">{t.common.title} *</label>
             <input className="input" required value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label">{t.common.personName}</label>
               <input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
@@ -126,7 +160,7 @@ export default function Leads() {
               <input className="input" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label">{t.common.email}</label>
               <input className="input" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
@@ -146,6 +180,6 @@ export default function Leads() {
           </div>
         </form>
       </Modal>
-    </div>
+    </Page>
   )
 }

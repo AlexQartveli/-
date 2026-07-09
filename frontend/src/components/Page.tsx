@@ -9,7 +9,7 @@ interface PageProps {
 
 export default function Page({ title, action, children }: PageProps) {
   return (
-    <div className="p-4 md:p-8">
+    <div className="page-shell">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <h1 className="page-title">{title}</h1>
         {action}
@@ -21,7 +21,7 @@ export default function Page({ title, action, children }: PageProps) {
 
 export function TableWrap({ children }: { children: ReactNode }) {
   return (
-    <div className="card overflow-x-auto">
+    <div className="table-scroll">
       {children}
     </div>
   )

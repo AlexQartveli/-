@@ -19,7 +19,7 @@ export default function LanguageSwitcher({ variant = 'sidebar' }: { variant?: Va
           key={l}
           type="button"
           onClick={() => setLocale(l)}
-          className={`px-2.5 py-1 text-xs font-semibold ${btn} ${locale === l ? active : ''}`}
+          className={`px-2 py-1 text-xs font-semibold ${btn} ${locale === l ? active : ''}`}
         >
           {LOCALE_LABELS[l]}
         </button>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Plus } from 'lucide-react'
 import { api, Product, StockMovement, Warehouse } from '../api/client'
 import Modal from '../components/Modal'
+import Page, { TableWrap } from '../components/Page'
 import { useI18n } from '../i18n/I18nContext'
 import { useStatuses, formatDate } from '../utils'
 
@@ -50,48 +51,73 @@ export default function Movements() {
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="page-title">{t.movements.title}</h1>
-        <button className="btn-primary flex items-center gap-2" onClick={() => setModalOpen(true)}>
+    <Page
+      title={t.movements.title}
+      action={
+        <button className="btn-primary flex items-center gap-2 shrink-0" onClick={() => setModalOpen(true)}>
           <Plus size={18} /> {t.common.newMovement}
         </button>
+      }
+    >
+      <div className="md:hidden space-y-3">
+        {movements.length === 0 ? (
+          <div className="card p-6 text-center text-app-text-muted">{t.common.noMovements}</div>
+        ) : (
+          movements.map((m) => (
+            <div key={m.id} className="card p-4">
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <h3 className="font-semibold">{m.product_name}</h3>
+                <span className={`shrink-0 px-2 py-0.5 rounded-full text-xs font-medium ${typeColor(m.movement_type)}`}>
+                  {movementTypes[m.movement_type as keyof typeof movementTypes] ?? m.movement_type}
+                </span>
+              </div>
+              <p className="text-sm text-app-text-muted">{m.warehouse_name}</p>
+              <div className="flex items-center justify-between mt-2 text-sm">
+                <span className="font-medium">{t.common.qty}: {m.quantity}</span>
+                <span className="text-app-text-muted">{formatDate(m.created_at)}</span>
+              </div>
+              {m.comment && <p className="text-sm text-app-text-secondary mt-2">{m.comment}</p>}
+            </div>
+          ))
+        )}
       </div>
 
-      <div className="card overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr>
-              <th className="text-left p-4 font-medium">{t.common.date}</th>
-              <th className="text-left p-4 font-medium">{t.common.type}</th>
-              <th className="text-left p-4 font-medium">{t.common.product}</th>
-              <th className="text-left p-4 font-medium">{t.common.warehouse}</th>
-              <th className="text-right p-4 font-medium">{t.common.qty}</th>
-              <th className="text-left p-4 font-medium">{t.common.comment}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {movements.map((m) => (
-              <tr key={m.id}>
-                <td className="p-4 text-app-text-muted">{formatDate(m.created_at)}</td>
-                <td className="p-4">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColor(m.movement_type)}`}>
-                    {movementTypes[m.movement_type as keyof typeof movementTypes] ?? m.movement_type}
-                  </span>
-                </td>
-                <td className="p-4 font-medium">{m.product_name}</td>
-                <td className="p-4">{m.warehouse_name}</td>
-                <td className="p-4 text-right font-medium">{m.quantity}</td>
-                <td className="p-4 text-app-text-muted">{m.comment || t.common.dash}</td>
-              </tr>
-            ))}
-            {movements.length === 0 && (
+      <div className="hidden md:block">
+        <TableWrap>
+          <table className="w-full text-sm">
+            <thead>
               <tr>
-                <td colSpan={6} className="p-8 text-center text-app-text-muted">{t.common.noMovements}</td>
+                <th className="text-left p-4 font-medium">{t.common.date}</th>
+                <th className="text-left p-4 font-medium">{t.common.type}</th>
+                <th className="text-left p-4 font-medium">{t.common.product}</th>
+                <th className="text-left p-4 font-medium">{t.common.warehouse}</th>
+                <th className="text-right p-4 font-medium">{t.common.qty}</th>
+                <th className="text-left p-4 font-medium">{t.common.comment}</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {movements.map((m) => (
+                <tr key={m.id}>
+                  <td className="p-4 text-app-text-muted">{formatDate(m.created_at)}</td>
+                  <td className="p-4">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColor(m.movement_type)}`}>
+                      {movementTypes[m.movement_type as keyof typeof movementTypes] ?? m.movement_type}
+                    </span>
+                  </td>
+                  <td className="p-4 font-medium">{m.product_name}</td>
+                  <td className="p-4">{m.warehouse_name}</td>
+                  <td className="p-4 text-right font-medium">{m.quantity}</td>
+                  <td className="p-4 text-app-text-muted">{m.comment || t.common.dash}</td>
+                </tr>
+              ))}
+              {movements.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="p-8 text-center text-app-text-muted">{t.common.noMovements}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </TableWrap>
       </div>
 
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={t.common.newMovement}>
@@ -147,6 +173,6 @@ export default function Movements() {
           </div>
         </form>
       </Modal>
-    </div>
+    </Page>
   )
 }

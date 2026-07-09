@@ -102,7 +102,7 @@ export default function Accounting() {
       </div>
 
       <TableWrap>
-        <table className="w-full text-sm min-w-[700px]">
+        <table className="w-full text-sm">
           <thead>
             <tr>
               <th className="text-left p-3 font-medium">{t.common.number}</th>

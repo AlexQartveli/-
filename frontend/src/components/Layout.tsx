@@ -74,7 +74,7 @@ export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen bg-app-bg">
+    <div className="flex min-h-screen bg-app-bg overflow-x-hidden max-w-full">
       <aside className="hidden md:flex w-60 bg-kinetix-800 text-white flex-col shrink-0">
         <Sidebar />
       </aside>
@@ -96,7 +96,7 @@ export default function Layout() {
 
       <div className="flex-1 flex flex-col min-w-0">
         <header className="mobile-header md:hidden">
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
             <button
               onClick={() => setMenuOpen(true)}
               className="p-1 shrink-0 text-app-text-secondary hover:text-app-text"
@@ -109,7 +109,7 @@ export default function Layout() {
           <HeaderControls variant="mobile" />
         </header>
 
-        <main className="flex-1 overflow-auto bg-app-bg">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden bg-app-bg min-w-0 max-w-full">
           <Outlet />
         </main>
       </div>

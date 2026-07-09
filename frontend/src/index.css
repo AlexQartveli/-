@@ -42,7 +42,15 @@
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  @apply bg-app-bg text-app-text antialiased;
+  @apply bg-app-bg text-app-text antialiased overflow-x-hidden;
+}
+
+html {
+  @apply overflow-x-hidden;
+}
+
+#root {
+  @apply overflow-x-hidden max-w-full;
 }
 
 @layer components {
@@ -71,8 +79,16 @@ body {
     @apply text-xl md:text-2xl font-bold text-app-text;
   }
 
+  .page-shell {
+    @apply p-4 md:p-8 max-w-full min-w-0;
+  }
+
+  .table-scroll {
+    @apply card max-w-full min-w-0 overflow-x-auto;
+  }
+
   .mobile-header {
-    @apply sticky top-0 z-40 flex items-center justify-between px-4 py-3 shrink-0 shadow-sm
+    @apply sticky top-0 z-40 flex items-center justify-between gap-2 px-3 py-2.5 shrink-0 shadow-sm max-w-full
       bg-app-header-bg text-app-header-text border-b border-app-header-border;
   }
 

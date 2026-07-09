@@ -77,7 +77,7 @@ export default function Deals() {
         ))}
       </div>
 
-      <div className="hidden md:flex gap-3 overflow-x-auto pb-4">
+      <div className="hidden md:flex gap-3 overflow-x-auto pb-4 max-w-full">
         {STAGE_ORDER.map((stage) => {
           const info = dealStages[stage]
           const stageDeals = deals.filter((d) => d.stage === stage)

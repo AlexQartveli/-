@@ -29,10 +29,10 @@ export default function Companies() {
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="page-shell">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <h1 className="page-title">{t.companies.title}</h1>
-        <button className="btn-primary flex items-center gap-2" onClick={() => setModalOpen(true)}>
+        <button className="btn-primary flex items-center gap-2 shrink-0" onClick={() => setModalOpen(true)}>
           <Plus size={18} /> {t.companies.add}
         </button>
       </div>
@@ -65,7 +65,7 @@ export default function Companies() {
             <label className="label">{t.common.inn}</label>
             <input className="input" value={form.inn} onChange={(e) => setForm({ ...form, inn: e.target.value })} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="label">{t.common.phone}</label>
               <input className="input" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
