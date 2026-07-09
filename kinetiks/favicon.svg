@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" role="img" aria-label="KINETIKS logo">
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#56f5ff"/>
+      <stop offset="0.48" stop-color="#7b61ff"/>
+      <stop offset="1" stop-color="#00ffa8"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="72" height="72" rx="18" fill="#060914"/>
+  <path d="M36 4 62 18v36L36 68 10 54V18L36 4Z" fill="#07111f" stroke="url(#g)" stroke-width="3" filter="url(#glow)"/>
+  <path d="M22 50V22h8v11.5L43 22h10L38.4 35.2 54 50H43.2L30 37.3V50h-8Z" fill="url(#g)"/>
+  <circle cx="52" cy="20" r="4" fill="#00ffa8"/>
+</svg>

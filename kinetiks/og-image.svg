@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#060914"/>
+      <stop offset="0.55" stop-color="#101a36"/>
+      <stop offset="1" stop-color="#061f1b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="130" y1="80" x2="960" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#56f5ff"/>
+      <stop offset="0.48" stop-color="#7b61ff"/>
+      <stop offset="1" stop-color="#00ffa8"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.24">
+    <path d="M0 126H1200M0 252H1200M0 378H1200M0 504H1200M150 0V630M300 0V630M450 0V630M600 0V630M750 0V630M900 0V630M1050 0V630" stroke="#9fb7ff" stroke-width="1"/>
+  </g>
+  <circle cx="950" cy="130" r="210" fill="#7b61ff" opacity="0.18"/>
+  <circle cx="180" cy="520" r="260" fill="#00ffa8" opacity="0.13"/>
+  <path d="M177 146 298 82l121 64v169L298 379 177 315V146Z" fill="#07111f" stroke="url(#accent)" stroke-width="10" filter="url(#glow)"/>
+  <path d="M232 302V163h40v57l65-57h50l-73 66 78 73h-54l-66-63v63h-40Z" fill="url(#accent)"/>
+  <circle cx="382" cy="159" r="18" fill="#00ffa8"/>
+  <text x="470" y="245" fill="#eef6ff" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="900" letter-spacing="-4">KINETIKS</text>
+  <text x="474" y="318" fill="#56f5ff" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="3">ЗАЯВКИ НЕ ТЕРЯЮТСЯ. ХАОС УБИРАЕМ.</text>
+  <text x="474" y="386" fill="#b7c5dd" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500">CRM, налоговая, мессенджеры и боты</text>
+  <text x="474" y="436" fill="#b7c5dd" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500">в одной системе для бизнеса в Грузии</text>
+</svg>

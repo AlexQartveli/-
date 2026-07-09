@@ -1,0 +1,17 @@
+{
+  "name": "KINETIKS",
+  "short_name": "KINETIKS",
+  "description": "KINETIKS убирает хаос из бизнес-процессов: CRM, налоговая, мессенджеры, боты и автоматизация.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060914",
+  "theme_color": "#070b16",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
